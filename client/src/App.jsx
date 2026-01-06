@@ -9,7 +9,7 @@ import MyBookings from "./pages/MyBooking";
 import Favourite from "./pages/Favourite";
 import Footer from "./components/Footer";
 import { Toaster } from "react-hot-toast";
-import { Layout } from "lucide-react";
+import { Layout as LayoutIcon } from "lucide-react";
 import Layout from "./pages/admin/Layout";
 import Dashboard from "./pages/admin/Dashboard";
 import AddShows from "./pages/admin/AddShows";
