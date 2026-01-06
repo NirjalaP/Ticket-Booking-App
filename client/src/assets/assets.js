@@ -331,3 +331,5 @@ export const dummyBookingData = [
         "isPaid": true,
     },
 ]
+
+export default assets;
