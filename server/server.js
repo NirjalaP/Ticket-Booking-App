@@ -1,4 +1,3 @@
-// server.js
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
@@ -11,26 +10,27 @@ import { inngest, functions } from "./inngest/index.js";
 const app = express();
 const port = process.env.PORT || 3000;
 
+// 1. Connect DB
 await connectDB();
 
-// 1) Global middleware FIRST
+// 2. MUST COME FIRST → parse JSON bodies
 app.use(express.json());
+
+// 3. OPTIONAL but safe → CORS
 app.use(cors());
 
-// 2) Inngest endpoint (no Clerk in front of it)
+// 4. MUST COME BEFORE CLERK → Inngest handler
 app.use("/api/inngest", serve({ client: inngest, functions }));
 
-// 3) Clerk for the rest of your routes
+// 5. Clerk AFTER Inngest (important!)
 app.use(clerkMiddleware());
 
-// Example route
+// 6. Your other routes
 app.get("/", (req, res) => res.send("Server is Live!"));
 
-// Local dev listener (Vercel ignores this)
+// Local dev listener
 if (process.env.VERCEL !== "1") {
-  app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
-  });
+  app.listen(port, () => console.log(`Server @ http://localhost:${port}`));
 }
 
 export default app;
