@@ -1,8 +1,13 @@
+import User  from "../models/User.js";
 import { Inngest } from "inngest";
+
+console.log("Has INNGEST_SIGNING_KEY:", !!process.env.INNGEST_SIGNING_KEY);
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ 
-    id: "movie-ticket-booking" });
+    id: "movie-ticket-booking",
+signingKey: process.env.INNGEST_SIGNING_KEY,});
+
 
 //Inngest function to save user data to a adatabase
 const syncUserCreation = inngest.createFunction(
