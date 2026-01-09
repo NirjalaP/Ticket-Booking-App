@@ -13,18 +13,20 @@ const port = process.env.PORT || 3000;
 
 await connectDB();
 
-// Inngest endpoint FIRST and unprotected
-app.use("/api/inngest", serve({ client: inngest, functions }));
-
-// Your normal API middleware
+// 1) Global middleware FIRST
 app.use(express.json());
 app.use(cors());
+
+// 2) Inngest endpoint (no Clerk in front of it)
+app.use("/api/inngest", serve({ client: inngest, functions }));
+
+// 3) Clerk for the rest of your routes
 app.use(clerkMiddleware());
 
-// Health route
+// Example route
 app.get("/", (req, res) => res.send("Server is Live!"));
 
-// Local dev listener (Vercel will ignore this export)
+// Local dev listener (Vercel ignores this)
 if (process.env.VERCEL !== "1") {
   app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
